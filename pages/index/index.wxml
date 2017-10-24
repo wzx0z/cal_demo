@@ -1,0 +1,5 @@
+<!--pages/index/index.wxml-->
+<view>
+  <input placeholder='{{input_holder}}' bindinput='textInput' value='{{input_text}}'></input>
+  <button type='primary' bindtap='btnSearch'>search</button>
+</view>

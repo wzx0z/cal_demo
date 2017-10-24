@@ -1,0 +1,16 @@
+<!--pages/search/search.wxml-->
+<view>
+  <input placeholder='{{input_holder}}' bindinput='textInput' value='{{input_text}}'></input>
+  <button type='primary' bindtap='btnSearch'>search</button>
+</view>
+<view>
+  <block wx:for="{{items}}">
+    <view>
+      <text>{{item.name}}</text>
+      <text>{{item.values[0]}}</text>
+      <text>{{item.values[1]}}</text>
+      <text>{{item.values[2]}}</text>
+      <text>{{item.values[3]}}</text>
+    </view>
+  </block>
+</view>
