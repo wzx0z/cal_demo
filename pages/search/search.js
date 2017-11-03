@@ -74,9 +74,7 @@ Page({
     console.log(this.data.items[id])
     list[this.data.foodType].items.push(this.data.items[id])
     list[this.data.foodType].total += parseFloat(this.data.items[id].values[0][1])
-    wx.redirectTo({
-      url: '/pages/index/index',
-    })
+    wx.navigateBack()
   },
 
   /**

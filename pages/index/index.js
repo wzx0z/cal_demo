@@ -3,6 +3,15 @@ Page({
   data:{
     list:{}
   },
+  onShow:function(){
+    var list = app.globalData.list;
+    for (var i in list) {   
+      list[i].open = list[i].open && list[i].items.length
+    }
+    this.setData({
+      list: list
+    });
+  },
   onLoad:function(){
     this.setData({
       list: app.globalData.list
@@ -28,7 +37,7 @@ Page({
     
   },
   searchFood: function (id) {
-    wx.redirectTo({
+    wx.navigateTo({
       url: '/pages/search/search?type=' + id,
     })
   },
