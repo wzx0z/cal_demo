@@ -1,16 +1,36 @@
-<!--pages/search/search.wxml-->
-<view>
-  <input placeholder='{{input_holder}}' bindinput='textInput' value='{{input_text}}'></input>
-  <button type='primary' bindtap='btnSearch'>search</button>
-</view>
-<view>
-  <block wx:for="{{items}}">
-    <view>
-      <text>{{item.name}}</text>
-      <text>{{item.values[0]}}</text>
-      <text>{{item.values[1]}}</text>
-      <text>{{item.values[2]}}</text>
-      <text>{{item.values[3]}}</text>
+<view class="page">
+  <view class="page__hd">
+    <view class="page__title">食物搜索</view>
+    <view class="page__desc">搜索功能测试</view>
+  </view>
+  <view class="page__bd">
+    <view class="weui-search-bar">
+      <view class="weui-search-bar__form">
+        <view class="weui-search-bar__box">
+          <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
+          <input type="text" class="weui-search-bar__input" placeholder="搜索" value="{{inputVal}}" focus="{{inputShowed}}" bindinput="inputTyping" bindconfirm="btnSearch" />
+          <view class="weui-icon-clear" wx:if="{{inputVal.length > 0}}" bindtap="clearInput">
+            <icon type="clear" size="14"></icon>
+          </view>
+        </view>
+        <label class="weui-search-bar__label" hidden="{{inputShowed}}" bindtap="showInput">
+          <icon class="weui-icon-search" type="search" size="14"></icon>
+          <view class="weui-search-bar__text">搜索</view>
+        </label>
+      </view>
+      <view class="weui-search-bar__cancel-btn" hidden="{{!inputShowed}}" bindtap="hideInput">取消</view>
     </view>
-  </block>
+    <view wx:if="{{items.length>0}}" class="weui-cells weui-cells_after-title">
+      <block wx:for="{{items}}">
+        <view bindtap='selectFood' id='{{index}}' class="weui-cell">
+          <view class="weui-cell__bd">{{item.name}}</view>
+          <view class="weui-cell__ft">{{item.values[0][1]}}大卡</view>
+        </view>
+      </block>
+    </view>
+    <view wx:elif="{{searched}}">
+      未找到匹配项
+    </view>
+  </view>
 </view>
+<!--pages/search/search.wxml-->

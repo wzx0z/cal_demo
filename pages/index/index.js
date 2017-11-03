@@ -1,80 +1,45 @@
-// pages/index/index.js
+const app = getApp()
 Page({
-
-  /**
-   * 页面的初始数据
-   */
-  data: {
-    input_holder: 'input text',
-    input_text: ''
+  data:{
+    list:{}
   },
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {
+  onLoad:function(){
+    this.setData({
+      list: app.globalData.list
+    });
+  },
+  kindToggle: function (e) {
+    var id = e.currentTarget.id, list = this.data.list;
+    for (var i in list) {
+      if (i == id) {
+        list[i].open = !list[i].open
+      } else {
+        list[i].open = false
+      }
+    }
+    app.globalData.list = list
+    if (list[id].items.length<1){
+      this.searchFood(id)
+    } else {
+      this.setData({
+        list: list
+      });
+    }
     
   },
-
-  textInput: function(e){
-    this.setData({
-      input_text: e.detail.value
+  searchFood: function (id) {
+    wx.redirectTo({
+      url: '/pages/search/search?type=' + id,
     })
   },
-
-  btnSearch: function(){
-    console.log('search ' + this.data.input_text)
-    wx.navigateTo({
-      url: '/pages/search/search?text=' + this.data.input_text,
-    })
+  addFood: function (e) {
+    var id = '', list = this.data.list;
+    for (var i in list) {
+      if (list[i].open) {
+        id = i
+        break
+      }
+    }
+    this.searchFood(id)
   },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-  
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-  
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-  
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-  
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-  
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-  
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-  
-  }
-})
+});

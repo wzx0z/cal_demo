@@ -1,12 +1,14 @@
-// pages/search/search.js
+const app = getApp()
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    input_holder: 'input text',
-    input_text: '',
+    searched: false,
+    inputShowed: false,
+    inputVal: "",
+    foodType:'',
     items: []
   },
 
@@ -15,9 +17,31 @@ Page({
    */
   onLoad: function (options) {
     this.setData({
-      input_text: options.text
+      foodType: options.type
     })
-    this.search(options.text)
+    //this.search(input_text)
+  },
+
+  showInput: function () {
+    this.setData({
+      inputShowed: true
+    });
+  },
+  hideInput: function () {
+    this.setData({
+      inputVal: "",
+      inputShowed: false
+    });
+  },
+  clearInput: function () {
+    this.setData({
+      inputVal: ""
+    });
+  },
+  inputTyping: function (e) {
+    this.setData({
+      inputVal: e.detail.value
+    });
   },
 
   search: function(text){
@@ -28,20 +52,31 @@ Page({
       success(res){
         console.log(res.data)
         self.setData({
-          items: res.data.Items
+          items: res.data.Items,
+          searched: true
         })
       }
     })
   },
 
-  textInput: function (e) {
+  /*textInput: function (e) {
     this.setData({
       input_text: e.detail.value
     })
-  },
+  },*/
 
   btnSearch: function () {
-    this.search(this.data.input_text)
+    this.search(this.data.inputVal)
+  },
+
+  selectFood: function(e) {
+    var id = parseInt(e.currentTarget.id), list = app.globalData.list;
+    console.log(this.data.items[id])
+    list[this.data.foodType].items.push(this.data.items[id])
+    list[this.data.foodType].total += parseFloat(this.data.items[id].values[0][1])
+    wx.redirectTo({
+      url: '/pages/index/index',
+    })
   },
 
   /**
