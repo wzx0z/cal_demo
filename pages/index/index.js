@@ -1,21 +1,34 @@
 const app = getApp()
 Page({
-  data:{
-    list:{}
+  data: {
+    list: {},
+    currentTab: 0,
+    winHeight: 0,
+    total:0
   },
-  onShow:function(){
-    var list = app.globalData.list;
-    for (var i in list) {   
-      list[i].open = list[i].open && list[i].items.length
+  onShow: function () {
+    if (this.data.currentTab == 0) {
+      var list = app.globalData.list;
+      var total = 0.0;
+      for (var i in list) {
+        list[i].open = list[i].open && list[i].items.length
+        total+=list[i].total
+      }
+      this.setData({
+        list: list,
+        total: total
+      });
     }
-    this.setData({
-      list: list
-    });
   },
-  onLoad:function(){
-    this.setData({
-      list: app.globalData.list
-    });
+  onLoad: function () {
+    var that = this
+    wx.getSystemInfo({
+      success: function (res) {
+        that.setData({
+          winHeight: res.windowHeight
+        })
+      },
+    })
   },
   kindToggle: function (e) {
     var id = e.currentTarget.id, list = this.data.list;
@@ -27,14 +40,14 @@ Page({
       }
     }
     app.globalData.list = list
-    if (list[id].items.length<1){
+    if (list[id].items.length < 1) {
       this.searchFood(id)
     } else {
       this.setData({
         list: list
       });
     }
-    
+
   },
   searchFood: function (id) {
     wx.navigateTo({
@@ -51,4 +64,23 @@ Page({
     }
     this.searchFood(id)
   },
+  bindChange: function (e) {
+
+    var that = this;
+    that.setData({ currentTab: e.detail.current });
+
+  },
+
+  swichNav: function (e) {
+
+    var that = this;
+
+    if (this.data.currentTab === e.target.dataset.current) {
+      return false;
+    } else {
+      that.setData({
+        currentTab: e.target.dataset.current
+      })
+    }
+  }
 });

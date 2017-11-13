@@ -1,1 +1,4 @@
 /* pages/search/search.wxss */
+.loadmore_hide{
+  display: none; 
+}

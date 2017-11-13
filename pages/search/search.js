@@ -5,6 +5,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    searching: false,
     searched: false,
     inputShowed: false,
     inputVal: "",
@@ -45,6 +46,9 @@ Page({
   },
 
   search: function(text){
+    this.setData({
+      searching: true
+    })
     var self = this
     console.log('GET '+text)
     wx.request({
@@ -52,6 +56,7 @@ Page({
       success(res){
         console.log(res.data)
         self.setData({
+          searching: false,
           items: res.data.Items,
           searched: true
         })

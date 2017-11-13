@@ -20,6 +20,10 @@
       </view>
       <view class="weui-search-bar__cancel-btn" hidden="{{!inputShowed}}" bindtap="hideInput">取消</view>
     </view>
+    <view class="weui-loadmore {{searching ? '' : 'loadmore_hide'}}">
+            <view class="weui-loading"></view>
+            <view class="weui-loadmore__tips">正在搜索</view>
+        </view>
     <view wx:if="{{items.length>0}}" class="weui-cells weui-cells_after-title">
       <block wx:for="{{items}}">
         <view bindtap='selectFood' id='{{index}}' class="weui-cell">
@@ -28,8 +32,8 @@
         </view>
       </block>
     </view>
-    <view wx:elif="{{searched}}">
-      未找到匹配项
+    <view wx:elif="{{searched}}" class="weui-loadmore weui-loadmore_line">
+      <view class="weui-loadmore__tips weui-loadmore__tips_in-line" style="background-color: #F8F8F8">暂无数据</view>
     </view>
   </view>
 </view>
